@@ -1,5 +1,4 @@
 import React, { useMemo, useState } from "react";
-import { motion } from "framer-motion";
 import { ShoppingCart, Leaf, Phone, Mail, Instagram, Facebook, Youtube, Sparkles, Check, ChevronRight, Palette } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -7,11 +6,9 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 
-// ---------- THEME ---------- //
 const brand = {
   name: "Melissa's Wreaths & Giggles",
   tagline: "Ridiculously delightful wreaths, centerpieces, and memorial florals",
-
   phone: "(555) 867-5309",
   email: "hello@wreathandwarmth.com",
   socials: {
@@ -30,23 +27,16 @@ const nav = [
   { href: "#contact", label: "Contact" }
 ];
 
-// ---------- HELPERS ---------- //
 const currency = (n) => n.toLocaleString(undefined, { style: "currency", currency: "USD" });
 
-// Simple price model you can tweak later or wire to a CMS/shop backend
 const BASE_PRICES = {
   wreath: { small: 45, medium: 65, large: 95 },
   centerpiece: { small: 35, medium: 55, large: 85 },
   memorial: { small: 40, medium: 70, large: 110 }
 };
 const MATERIAL_MULT = { faux: 1.0, dried: 1.15, fresh: 1.25 };
-const ADDONS = {
-  lights: 12,
-  ribbon: 8,
-  personalization: 10
-};
+const ADDONS = { lights: 12, ribbon: 8, personalization: 10 };
 
-// ---------- APP ---------- //
 export default function WreathSite() {
   return (
     <div className="min-h-screen bg-neutral-50 text-neutral-900">
@@ -63,7 +53,6 @@ export default function WreathSite() {
   );
 }
 
-// ---------- HEADER ---------- //
 function Header() {
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60">
@@ -112,20 +101,14 @@ function MobileNav() {
   );
 }
 
-// ---------- HERO ---------- //
 function Hero() {
   return (
     <section className="relative isolate overflow-hidden bg-gradient-to-br from-emerald-50 via-lime-50 to-amber-50">
       <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-4 py-20 md:grid-cols-2 md:py-28">
         <div>
-          <motion.h1
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-4xl font-extrabold tracking-tight md:text-5xl"
-          >
+          <h1 className="text-4xl font-extrabold tracking-tight md:text-5xl">
             Welcome to <span className="text-emerald-700">{brand.name}</span>
-          </motion.h1>
+          </h1>
           <p className="mt-4 text-lg text-neutral-700">{brand.tagline}. Custom work available for every season and occasion, with accessible at-home craftsmanship at our core.</p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Button asChild className="gap-2">
@@ -137,10 +120,7 @@ function Hero() {
           </div>
           <p className="mt-4 text-sm text-neutral-600">Hand-made in small batches, powered by snacks. Disability-friendly studio practices.</p>
         </div>
-        <motion.div
-          initial={{ opacity: 0, scale: 0.98 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6 }}
+        <div
           className="aspect-square w-full rounded-3xl bg-[url('https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?q=80&w=1200&auto=format&fit=crop')] bg-cover bg-center shadow-2xl"
           aria-label="Photo of a decorative wreath"
         />
@@ -149,7 +129,6 @@ function Hero() {
   );
 }
 
-// ---------- PRODUCTS / SHOP GRID ---------- //
 function Products() {
   const items = [
     {
@@ -157,7 +136,7 @@ function Products() {
       title: "Spring Bloom Wreath",
       price: 75,
       img: "https://images.unsplash.com/photo-1490578474895-699cd4e2cf59?q=80&w=1200&auto=format&fit=crop",
-      tags: ["Faux", "18\\""],
+      tags: ["Faux", '18"'],   // fixed quotes
     },
     {
       id: "autumn-harvest",
@@ -171,7 +150,7 @@ function Products() {
       title: "Evergreen Classic Wreath",
       price: 95,
       img: "https://images.unsplash.com/photo-1543589077-47f3ea36d3f6?q=80&w=1200&auto=format&fit=crop",
-      tags: ["Fresh", "24\\""],
+      tags: ["Fresh", '24"'],  // fixed quotes
     },
   ];
 
@@ -180,7 +159,9 @@ function Products() {
       <div className="mb-8 flex items-end justify-between">
         <div>
           <h2 className="text-2xl font-bold tracking-tight md:text-3xl">Featured designs</h2>
-          <p className="mt-1 text-neutral-600">Seasonal favorites ready to ship or pick up locally.</p>
+          <p className="mt-1 text-neutral-600">
+            Seasonal favorites ready to ship or pick up locally.
+          </p>
         </div>
         <div className="hidden gap-2 md:flex">
           <Button variant="outline">All</Button>
@@ -193,7 +174,10 @@ function Products() {
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {items.map((it) => (
           <Card key={it.id} className="overflow-hidden rounded-2xl">
-            <div className="aspect-square w-full bg-cover bg-center" style={{ backgroundImage: `url(${it.img})` }} />
+            <div
+              className="aspect-square w-full bg-cover bg-center"
+              style={{ backgroundImage: `url(${it.img})` }}
+            />
             <CardHeader className="pb-2">
               <CardTitle className="text-lg">{it.title}</CardTitle>
             </CardHeader>
@@ -202,25 +186,35 @@ function Products() {
                 <div className="font-semibold">{currency(it.price)}</div>
                 <div className="mt-1 flex flex-wrap gap-2 text-xs text-neutral-600">
                   {it.tags.map((t) => (
-                    <span key={t} className="rounded-full bg-neutral-100 px-2 py-1">{t}</span>
+                    <span
+                      key={t}
+                      className="rounded-full bg-neutral-100 px-2 py-1"
+                    >
+                      {t}
+                    </span>
                   ))}
                 </div>
               </div>
-              <Button className="gap-2"><ShoppingCart className="h-4 w-4"/> Add</Button>
+              <Button className="gap-2">
+                <ShoppingCart className="h-4 w-4" /> Add
+              </Button>
             </CardContent>
           </Card>
         ))}
       </div>
+
       <div className="mt-8 text-center">
         <Button variant="outline" className="gap-2" asChild>
-          <a href="#custom"><Sparkles className="h-4 w-4"/> Start a custom order</a>
+          <a href="#custom">
+            <Sparkles className="h-4 w-4" /> Start a custom order
+          </a>
         </Button>
       </div>
     </section>
   );
 }
 
-// ---------- CUSTOM ORDER BUILDER ---------- //
+
 function CustomBuilder() {
   const [category, setCategory] = useState("wreath");
   const [size, setSize] = useState("medium");
@@ -236,9 +230,9 @@ function CustomBuilder() {
     return Math.max(0, (base * mult + add) * qty);
   }, [category, size, material, qty, addons]);
 
-  async function handleSubmit(e){
+  function handleSubmit(e){
     e.preventDefault();
-    alert('Thanks! Your request was received. (Demo: form submission ready for backend)');
+    alert('Thanks! Your request was received. (Demo: backend can be added)');
     e.currentTarget.reset();
   }
 
@@ -248,32 +242,14 @@ function CustomBuilder() {
         <div>
           <h2 className="text-2xl font-bold tracking-tight md:text-3xl">Design your custom piece</h2>
           <p className="mt-2 text-neutral-600">Get an instant estimate, then submit your request. We'll confirm details within 24 hours.</p>
-
           <div className="mt-6 grid grid-cols-2 gap-4">
-            <Select label="Category" value={category} onChange={setCategory} options={[
-              { label: "Wreath", value: "wreath" },
-              { label: "Centerpiece", value: "centerpiece" },
-              { label: "Memorial", value: "memorial" }
-            ]} />
-
-            <Select label="Size" value={size} onChange={setSize} options={[
-              { label: "Small", value: "small" },
-              { label: "Medium", value: "medium" },
-              { label: "Large", value: "large" }
-            ]} />
-
-            <Select label="Material" value={material} onChange={setMaterial} options={[
-              { label: "Faux/Silk", value: "faux" },
-              { label: "Dried", value: "dried" },
-              { label: "Fresh", value: "fresh" }
-            ]} />
-
+            <Select label="Category" value={category} onChange={setCategory} options={[{ label: "Wreath", value: "wreath" },{ label: "Centerpiece", value: "centerpiece" },{ label: "Memorial", value: "memorial" }]} />
+            <Select label="Size" value={size} onChange={setSize} options={[{ label: "Small", value: "small" },{ label: "Medium", value: "medium" },{ label: "Large", value: "large" }]} />
+            <Select label="Material" value={material} onChange={setMaterial} options={[{ label: "Faux/Silk", value: "faux" },{ label: "Dried", value: "dried" },{ label: "Fresh", value: "fresh" }]} />
             <Number label="Quantity" value={qty} onChange={setQty} min={1} max={20} />
-
             <Checkbox label={`LED Micro-lights (+${currency(ADDONS.lights)})`} checked={addons.lights} onChange={(v) => setAddons(a => ({ ...a, lights: v }))} />
             <Checkbox label={`Premium ribbon (+${currency(ADDONS.ribbon)})`} checked={addons.ribbon} onChange={(v) => setAddons(a => ({ ...a, ribbon: v }))} />
             <Checkbox label={`Personalization tag (+${currency(ADDONS.personalization)})`} checked={addons.personalization} onChange={(v) => setAddons(a => ({ ...a, personalization: v }))} />
-
             <div className="col-span-2">
               <Label>Color palette</Label>
               <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-3">
@@ -287,11 +263,8 @@ function CustomBuilder() {
             </div>
           </div>
         </div>
-
         <Card className="h-max self-start">
-          <CardHeader>
-            <CardTitle className="flex items-center justify-between">Your estimate <span className="text-xl">{currency(estimate)}</span></CardTitle>
-          </CardHeader>
+          <CardHeader><CardTitle className="flex items-center justify-between">Your estimate <span className="text-xl">{currency(estimate)}</span></CardTitle></CardHeader>
           <CardContent>
             <form className="space-y-3" onSubmit={handleSubmit}>
               <Input name="full_name" aria-label="Full name" placeholder="Full name" required />
@@ -309,36 +282,28 @@ function CustomBuilder() {
   );
 }
 
-// ---------- TUTORIALS ---------- //
 function Tutorials() {
   const vids = [
     { id: "vid1", title: "Beginner: 30-min Faux Wreath", dur: "30:12", thumb: "https://images.unsplash.com/photo-1512428559087-560fa5ceab42?q=80&w=1200&auto=format&fit=crop" },
     { id: "vid2", title: "Dried Florals Centerpiece", dur: "18:47", thumb: "https://images.unsplash.com/photo-1501447108233-4a8d6d83dfdf?q=80&w=1200&auto=format&fit=crop" },
     { id: "vid3", title: "Memorial Arrangement Basics", dur: "22:03", thumb: "https://images.unsplash.com/photo-1470058869958-2a77ade41c02?q=80&w=1200&auto=format&fit=crop" },
   ];
-
   return (
     <section id="tutorials" className="bg-neutral-50">
       <div className="mx-auto max-w-7xl px-4 py-16">
         <h2 className="text-2xl font-bold tracking-tight md:text-3xl">Free tutorials & mildly chaotic maker resources</h2>
         <p className="mt-2 max-w-2xl text-neutral-600">Learn at your own pace. All videos include captions and seated-position variations for low-energy days.</p>
-
         <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {vids.map((v) => (
             <Card key={v.id} className="overflow-hidden">
               <div className="relative aspect-video w-full bg-cover bg-center" style={{ backgroundImage: `url(${v.thumb})` }}>
                 <span className="absolute bottom-2 right-2 rounded-md bg-black/70 px-2 py-1 text-xs text-white">{v.dur}</span>
               </div>
-              <CardHeader className="pb-2">
-                <CardTitle className="text-base">{v.title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Button variant="outline" className="w-full">Watch</Button>
-              </CardContent>
+              <CardHeader className="pb-2"><CardTitle className="text-base">{v.title}</CardTitle></CardHeader>
+              <CardContent><Button variant="outline" className="w-full">Watch</Button></CardContent>
             </Card>
           ))}
         </div>
-
         <div className="mt-10 rounded-2xl border bg-white p-6">
           <h3 className="font-semibold">The Giggle Gazette</h3>
           <p className="mt-1 text-sm text-neutral-600">Monthly tips, tool lists, and printable guides—with occasional terrible puns. Unsubscribe anytime.</p>
@@ -352,7 +317,6 @@ function Tutorials() {
   );
 }
 
-// ---------- ABOUT ---------- //
 function About() {
   return (
     <section id="about" className="mx-auto max-w-7xl px-4 py-16">
@@ -368,7 +332,6 @@ function About() {
         </div>
         <div className="rounded-3xl bg-[url('https://images.unsplash.com/photo-1482304513936-8c79aa2fb2a1?q=80&w=1200&auto=format&fit=crop')] bg-cover bg-center shadow-xl min-h-80"/>
       </div>
-
       <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
         <Stat number="1–3 days" label="Typical build time"/>
         <Stat number="500+" label="Happy customers"/>
@@ -389,7 +352,6 @@ function Stat({ number, label }) {
   );
 }
 
-// ---------- FAQ ---------- //
 function FAQ() {
   const faqs = [
     { q: "How do you price customs?", a: "By category, size, and materials. The builder shows a live estimate; we confirm by email before payment—no surprises, just sparkles." },
@@ -414,7 +376,6 @@ function FAQ() {
   );
 }
 
-// ---------- CONTACT ---------- //
 function Contact() {
   return (
     <section id="contact" className="mx-auto max-w-7xl px-4 py-16">
@@ -422,7 +383,6 @@ function Contact() {
         <div>
           <h2 className="text-2xl font-bold tracking-tight md:text-3xl">Get in touch</h2>
           <p className="mt-2 text-neutral-700">Have a question or a big idea? We’re here to help.</p>
-
           <div className="mt-6 space-y-3 text-neutral-700">
             <p className="flex items-center gap-2"><Phone className="h-4 w-4"/> {brand.phone}</p>
             <p className="flex items-center gap-2"><Mail className="h-4 w-4"/> {brand.email}</p>
@@ -433,11 +393,8 @@ function Contact() {
             </div>
           </div>
         </div>
-
         <Card>
-          <CardHeader>
-            <CardTitle>Send a message</CardTitle>
-          </CardHeader>
+          <CardHeader><CardTitle>Send a message</CardTitle></CardHeader>
           <CardContent>
             <form className="space-y-3" method="POST" action="#">
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -456,16 +413,12 @@ function Contact() {
   );
 }
 
-// ---------- FOOTER ---------- //
 function Footer() {
   return (
     <footer className="border-t bg-white">
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 px-4 py-10 md:grid-cols-4">
         <div>
-          <div className="flex items-center gap-2">
-            <Leaf className="h-5 w-5"/>
-            <span className="font-semibold">{brand.name}</span>
-          </div>
+          <div className="flex items-center gap-2"><Leaf className="h-5 w-5"/><span className="font-semibold">{brand.name}</span></div>
           <p className="mt-2 text-sm text-neutral-600">{brand.tagline}.</p>
         </div>
         <div>
@@ -497,38 +450,21 @@ function Footer() {
   );
 }
 
-// ---------- UI PRIMITIVES (local) ---------- //
-function Label({ children }) {
-  return <label className="text-sm font-medium text-neutral-700">{children}</label>;
-}
-
+function Label({ children }) { return <label className="text-sm font-medium text-neutral-700">{children}</label> }
 function Select({ label, value, onChange, options }) {
-  return (
-    <div>
-      <Label>{label}</Label>
-      <select value={value} onChange={(e) => onChange(e.target.value)} className="mt-1 w-full rounded-xl border border-neutral-200 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
-        {options.map((o) => (
-          <option key={o.value} value={o.value}>{o.label}</option>
-        ))}
-      </select>
-    </div>
-  );
+  return (<div><Label>{label}</Label>
+    <select value={value} onChange={(e) => onChange(e.target.value)} className="mt-1 w-full rounded-xl border border-neutral-200 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+      {options.map((o) => (<option key={o.value} value={o.value}>{o.label}</option>))}
+    </select></div>)
 }
-
 function Number({ label, value, onChange, min=1, max=99 }) {
-  return (
-    <div>
-      <Label>{label}</Label>
-      <input type="number" min={min} max={max} value={value} onChange={(e) => onChange(parseInt(e.target.value || "1", 10))} className="mt-1 w-full rounded-xl border border-neutral-200 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"/>
-    </div>
-  );
+  return (<div><Label>{label}</Label>
+    <input type="number" min={min} max={max} value={value} onChange={(e) => onChange(parseInt(e.target.value || "1", 10))} className="mt-1 w-full rounded-xl border border-neutral-200 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"/>
+  </div>)
 }
-
 function Checkbox({ label, checked, onChange }) {
-  return (
-    <label className="flex cursor-pointer items-center gap-2">
-      <input type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} className="h-4 w-4 rounded border-neutral-300 text-emerald-600 focus:ring-emerald-500"/>
-      <span className="text-sm text-neutral-700">{label}</span>
-    </label>
-  );
+  return (<label className="flex cursor-pointer items-center gap-2">
+    <input type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} className="h-4 w-4 rounded border-neutral-300 text-emerald-600 focus:ring-emerald-500"/>
+    <span className="text-sm text-neutral-700">{label}</span>
+  </label>)
 }
