@@ -69,6 +69,7 @@ export default function WreathSite() {
 }
 
 // ---------- HEADER ---------- //
+// ---------- HEADER (replace your whole Header() with this) ----------
 function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60">
@@ -81,20 +82,16 @@ function Header() {
         {/* Desktop nav */}
         <nav className="hidden items-center gap-6 md:flex">
           {nav.map((n) => (
-            <a
-              key={n.href}
-              href={n.href}
-              className="text-sm font-medium text-neutral-700 hover:text-neutral-900"
-            >
+            <a key={n.href} href={n.href} className="text-sm font-medium text-neutral-700 hover:text-neutral-900">
               {n.label}
             </a>
           ))}
-          <Button className="gap-2">
+          <button className="inline-flex items-center gap-2 rounded-xl border border-transparent bg-emerald-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-emerald-700">
             <ShoppingCart className="h-4 w-4" /> Shop
-          </Button>
+          </button>
         </nav>
 
-        {/* Mobile nav button */}
+        {/* Mobile trigger */}
         <div className="md:hidden">
           <MobileNav />
         </div>
@@ -103,39 +100,43 @@ function Header() {
   );
 }
 
-// ---------- MOBILE NAV (overlay; doesn’t push content) ---------- //
+// ---------- MOBILE NAV (overlay; no dependencies) ----------
 function MobileNav() {
   const [open, setOpen] = useState(false);
 
-  // lock body scroll when menu open (tiny UX touch)
+  // lock body scroll when open
   React.useEffect(() => {
-    if (open) {
-      const prev = document.body.style.overflow;
-      document.body.style.overflow = "hidden";
-      return () => (document.body.style.overflow = prev);
-    }
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => (document.body.style.overflow = prev);
   }, [open]);
 
   return (
     <>
-      <Button
-        variant="outline"
-        size="icon"
+      {/* hamburger button */}
+      <button
+        type="button"
         aria-label="Open menu"
         onClick={() => setOpen(true)}
+        className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-neutral-300 bg-white text-neutral-800"
       >
-        <ChevronRight className="h-5 w-5 rotate-90" />
-      </Button>
+        {/* simple hamburger icon */}
+        <span className="block h-0.5 w-5 bg-neutral-800" />
+        <span className="block h-0.5 w-5 bg-neutral-800 mt-1.5" />
+        <span className="block h-0.5 w-5 bg-neutral-800 mt-1.5" />
+      </button>
 
+      {/* overlay drawer */}
       {open && (
         <div className="fixed inset-0 z-[60]">
-          {/* Backdrop */}
+          {/* backdrop */}
           <div
             className="absolute inset-0 bg-black/40"
             onClick={() => setOpen(false)}
             aria-hidden="true"
           />
-          {/* Slide-in panel */}
+          {/* panel */}
           <div
             className="absolute right-0 top-0 h-full w-80 bg-white shadow-2xl p-6"
             role="dialog"
@@ -146,14 +147,14 @@ function MobileNav() {
                 <Leaf className="h-5 w-5" />
                 <span className="font-semibold">{brand.name}</span>
               </div>
-              <Button
-                variant="outline"
-                size="icon"
+              <button
+                type="button"
                 aria-label="Close menu"
                 onClick={() => setOpen(false)}
+                className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-neutral-300 bg-white text-neutral-800"
               >
                 ✕
-              </Button>
+              </button>
             </div>
 
             <nav className="flex flex-col gap-4">
@@ -167,9 +168,13 @@ function MobileNav() {
                   {n.label}
                 </a>
               ))}
-              <Button className="mt-2 gap-2" onClick={() => setOpen(false)}>
+              <button
+                type="button"
+                className="mt-2 inline-flex items-center gap-2 rounded-xl border border-transparent bg-emerald-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-emerald-700"
+                onClick={() => setOpen(false)}
+              >
                 <ShoppingCart className="h-4 w-4" /> Shop
-              </Button>
+              </button>
             </nav>
           </div>
         </div>
@@ -177,6 +182,7 @@ function MobileNav() {
     </>
   );
 }
+
 
 // ---------- HERO ---------- //
 function Hero() {
